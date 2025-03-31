@@ -17,7 +17,7 @@ screenRegion = (710,110, 1200, 1000)
 Offset_list = [0,6,6]
 
     # Path for the assets
-Default_path = r"Pure_code\Python\DuoBot_(WORKING)\Assets" 
+Default_path = r"\Assets" 
 
 
 
@@ -50,6 +50,8 @@ strokes = {
     "Stroke_3_2": (320,1300 ,730, 1250),
     "Stroke_3_3": (200,1500 ,850, 1500)
 }
+
+scrcpy_path = r"C:\Program Files\scrcpy-win64-v2.7\scrcpy.exe"
 
 #___________________________________________________________________________________________________________________________________________________#
 # Importing assets to search for
