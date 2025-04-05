@@ -1,9 +1,13 @@
 import pyautogui as pya
 import time
+import os
 import screen
 from ppadb.client import Client
 import random
 from config import *
+import time
+import requests
+
 
 #___________________________________________________________________________________________________________________________________________________#
 # Initiate Pyautogui
@@ -14,8 +18,8 @@ pya.useImageNotFoundException()
 adb = Client(host='127.0.0.1', port=5037)
 devices = adb.devices()
 device = devices[0]
-
-
+discordIntegration = True
+os.system("adb devices")
 
 
 #___________________________________________________________________________________________________________________________________________________#
@@ -69,53 +73,79 @@ def confirm():
 def Whereis(Searched_item, confidence, region) :
     global generalPurposeCounter
     imagePos = None
-    while imagePos == None and generalPurposeCounter < maxIterations:
+    while imagePos == None and generalPurposeCounter <= maxIterations:
+        if generalPurposeCounter == 30: print(f"not found after {maxIterations} iterations")
         try:
             imagePos = pya.locateCenterOnScreen(Searched_item,confidence= confidence, region = region)
             time.sleep(0.05)
         except:
             generalPurposeCounter +=1
+        
     generalPurposeCounter = 0 # Reset the counter for next use
     return imagePos
-
 
 def assemble(listnumber):
     '''This function searches the matching region and returns a list of positions to click to match the answers'''
     positionsList = []
     answercounter = 0  # Remplace generalPurposeCounter
 
-    while len(positionsList) < 6:  # ou numberOfPropositions*2 selon ton besoin
-        NewPosition = Whereis(ANSWERSLIST[answercounter + listnumber], 0.90, MatchingAnswersRegion)
+    while len(positionsList) < 6:  # ou numberOfPropositions * 2 selon ton besoin
+        image_path = ANSWERSLIST[answercounter + listnumber]
 
-        if NewPosition is not None:  # Évite d'ajouter None à la liste
-            positionsList.append(NewPosition)
-            answercounter += 1
-        else:
-            callMe(f"Incapacité de retrouver l'asset {answercounter + listnumber}")
+        found_position = None
+        while found_position is None:
+            found_position = Whereis(image_path, 0.90, MatchingAnswersRegion)
+            if found_position is None:
+                callMe(f"Incapacité de retrouver l'asset {answercounter + listnumber}")
+
+        positionsList.append(found_position)
+        answercounter += 1
 
     return positionsList
 
 def callMe(message):
-    # TODO: should send a webhook to a discord server to notify the program is stuck...
-    while True:
-        print(f"issue here: {message}")
-        time.sleep(1)
+    # Message dans la console
+    print(f"Issue here: {message}")
+
+    # Payload pour Discord
+    data = {
+        "content": f"⚠️ Programme bloqué : {message}"
+    }
+    if discordIntegration:
+        try:
+            response = requests.post(DISCORD_WEBHOOK_URL, json=data)
+            if response.status_code != 204:
+                print(f"⚠️ Erreur lors de l'envoi Discord : {response.status_code} - {response.text}")
+        except Exception as e:
+            print(f"⚠️ Exception pendant l'envoi Discord : {e}")
+
+    time.sleep(1)
 
 
 
 #___________________________________________________________________________________________________________________________________________________#
 # Standard exercise
+
 def makeLessons(maxLessons = 999):
+    global generalPurposeCounter
+    numberOfLessons = 0
     """ maxLessons = -1 means there is no stop"""
+    print("The session started")
+    CourseIsOn = True
+    screen.launchscrcpy(3)
     while numberOfLessons < maxLessons or maxLessons == -1:
-        print("The session started")
-        CourseIsOn = True
-        screen.launchscrcpy(3)
+        
         while CourseIsOn == True:
             
             #waiting for duo to load the first exercise:
-            while Whereis(DRAWONE,globalConfidence,screenRegion) == None: pass
-
+            while Whereis(DRAWONE,globalConfidence,TitleRegion) == None: 
+                print("title not found")
+                try: 
+                    PracticePos = pya.locateCenterOnScreen(PRACTICEBUTTON , confidence = globalConfidence, region = screenRegion)   #check if the practice button is visible, and if not, clickOnPhone the "continue button"'s position
+                    pressOnPhone(PracticePos)
+                except:
+                    time.sleep(0.1)
+                
             swipeOnPhone(strokes["Stroke_1_1"],swipe_speed)  #first stroke
             confirm()
             time.sleep(0.5*phone_slowness)
@@ -162,8 +192,12 @@ def makeLessons(maxLessons = 999):
             Offset_Counter,generalPurposeCounter = 0,0
 
         # Launch another exercise
-        pressOnPhone(PracticePos)
-        time.sleep(0.1)
+        try: 
+            PracticePos = pya.locateCenterOnScreen(PRACTICEBUTTON , confidence = globalConfidence, region = screenRegion)   #check if the practice button is visible, and if not, clickOnPhone the "continue button"'s position
+            pressOnPhone(PracticePos)
+        except:
+            time.sleep(0.1)
+        
         numberOfLessons +=1
         if debug: print(numberOfLessons)
         CourseIsOn = True

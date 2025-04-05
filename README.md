@@ -15,6 +15,7 @@ Python 3.12.9
 1) Install the required libraries:
    - Pure-python ADB 0.3.0 ([official link](https://pypi.org/project/pure-python-adb/))
    - Pyautogui  ([official link](https://pyautogui.readthedocs.io/en/latest/))
+   - dotenv(required to use private discord webhooks token) ( [official link](https://pypi.org/project/python-dotenv/) )
 
 3) Go to config.py and change the settings if you have a different phone than a REDMI Note 12 pro 5G
 (e.g. : computer screen resolution, phone screen resolution,...)

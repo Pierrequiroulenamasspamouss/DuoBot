@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # charge les variables depuis .env
+
     # If you change one of those resolutions, you have to remake the assets library. 
 Phoneresolution = (1080, 2400)
 computer_resolution = (1920,1080) # 1080p horizontal
@@ -11,18 +16,18 @@ Confirm_POS = (845,972)
 
     # Where to search on screen for matching exercises. 
 MatchingAnswersRegion = (715,380,1200,750) 
-
+TitleRegion = (710,110,1200,600)
     # Offsets required for matching, which asset matches which 
 screenRegion = (710,110, 1200, 1000)
 Offset_list = [0,6,6]
 
     # Path for the assets
-Default_path = r"\Assets" 
+Default_path = os.path.join(os.getcwd(), "Assets")
 
 
 
     # If you want for you computer to search more times the image on screen
-maxIterations = 30
+maxIterations = 20
 
     # Image confidence
 globalConfidence =0.90
