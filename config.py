@@ -1,7 +1,14 @@
 import os
 from dotenv import load_dotenv
+discordIntegration = True
+try :  DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+except:
+    print("no discord webhook available. ")
+    
 
-load_dotenv()  # charge les variables depuis .env
+    discordIntegration = False
+
+load_dotenv()  
 
     # If you change one of those resolutions, you have to remake the assets library. 
 Phoneresolution = (1080, 2400)

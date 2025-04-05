@@ -8,6 +8,17 @@ from config import *
 import time
 import requests
 
+'''
+       / \
+      /   \
+     /     \
+    /  !!!  \
+   /IMPORTANT\
+  /___________\
+
+  IMPORTANT: change the discord webhook API in .env file if you plan to use a discord webhook integration
+  '''
+
 
 #___________________________________________________________________________________________________________________________________________________#
 # Initiate Pyautogui
@@ -18,8 +29,7 @@ pya.useImageNotFoundException()
 adb = Client(host='127.0.0.1', port=5037)
 devices = adb.devices()
 device = devices[0]
-discordIntegration = True
-os.system("adb devices")
+os.system("adb devices") #to start adb daemon
 
 
 #___________________________________________________________________________________________________________________________________________________#
@@ -27,15 +37,15 @@ os.system("adb devices")
 
 
 def computerResToPhoneRes(coordinates):
-    # Décalage dû aux bordures noires ajoutées par scrcpy
+    # Offsset because of scrcpy's black borders 
     offset_x = (computer_resolution[0] - scrcpy_dimensions[0]) / 2
     offset_y = (computer_resolution[1] - scrcpy_dimensions[1]) / 2
 
-    # Coordonnées normalisées dans la zone affichée par scrcpy
+    # Normalized coordinates in scrcpy's shown area
     norm_x = (coordinates[0] - offset_x) / scrcpy_dimensions[0]
     norm_y = (coordinates[1] - offset_y) / scrcpy_dimensions[1]
 
-    # Conversion vers la résolution du téléphone
+    # Conversion to the phone's resolution
     x = round(norm_x * Phoneresolution[0], 0)
     y = round(norm_y * Phoneresolution[1], 0)
 
@@ -87,9 +97,9 @@ def Whereis(Searched_item, confidence, region) :
 def assemble(listnumber):
     '''This function searches the matching region and returns a list of positions to click to match the answers'''
     positionsList = []
-    answercounter = 0  # Remplace generalPurposeCounter
+    answercounter = 0 
 
-    while len(positionsList) < 6:  # ou numberOfPropositions * 2 selon ton besoin
+    while len(positionsList) < numberOfPropositions * 2:
         image_path = ANSWERSLIST[answercounter + listnumber]
 
         found_position = None
@@ -109,15 +119,15 @@ def callMe(message):
 
     # Payload pour Discord
     data = {
-        "content": f"⚠️ Programme bloqué : {message}"
+        "content": f"⚠️ Program stuck : {message}"
     }
     if discordIntegration:
         try:
             response = requests.post(DISCORD_WEBHOOK_URL, json=data)
             if response.status_code != 204:
-                print(f"⚠️ Erreur lors de l'envoi Discord : {response.status_code} - {response.text}")
+                print(f"⚠️ Failure of sending the Discord message: {response.status_code} - {response.text}")
         except Exception as e:
-            print(f"⚠️ Exception pendant l'envoi Discord : {e}")
+            print(f"⚠️ Exception during the sending of the discord message : {e}")
 
     time.sleep(1)
 
@@ -139,12 +149,13 @@ def makeLessons(maxLessons = 999):
             
             #waiting for duo to load the first exercise:
             while Whereis(DRAWONE,globalConfidence,TitleRegion) == None: 
-                print("title not found")
                 try: 
                     PracticePos = pya.locateCenterOnScreen(PRACTICEBUTTON , confidence = globalConfidence, region = screenRegion)   #check if the practice button is visible, and if not, clickOnPhone the "continue button"'s position
                     pressOnPhone(PracticePos)
                 except:
-                    time.sleep(0.1)
+                    time.sleep(0.05)
+                    print("title not found")
+                    callMe("title not found")
                 
             swipeOnPhone(strokes["Stroke_1_1"],swipe_speed)  #first stroke
             confirm()
@@ -175,8 +186,9 @@ def makeLessons(maxLessons = 999):
                     e= time.time()
                     if debug: print(f'time to click on all answers: {e-s} seconds')
                 confirm()
-                answerPosition,Offset_Counter,PracticePos,CourseIsOn = 0, Offset_Counter +1, None, False
-                
+                answerPosition,Offset_Counter = 0, Offset_Counter +1
+            PracticePos = None
+            CourseIsOn = False
             while PracticePos == None :
                 try: 
                     PracticePos = pya.locateCenterOnScreen(PRACTICEBUTTON , confidence = globalConfidence, region = screenRegion)   #check if the practice button is visible, and if not, clickOnPhone the "continue button"'s position
@@ -185,7 +197,7 @@ def makeLessons(maxLessons = 999):
                     confirm()
                     generalPurposeCounter +=1
                 if generalPurposeCounter >maxIterations: 
-                    callMe("échec du lancement d'un nouvel exercice")
+                    callMe("failure to launch a new exercise")
                     generalPurposeCounter = 0
                 
         
