@@ -1,13 +1,13 @@
 # DuoBot
 Automatic XP farmer with easy japanese lessons
 
-REQUIREMENTS: 
-Win11 (Maybe works on linux, but adaptations are required for the detection with pyautogui)
-Duolingo version 6.23.2 or later
-A computer and a phone
-An USB cable
-Some patience for the setup.
-Python 3.12.9
+# REQUIREMENTS: 
+- Win11 (Maybe works on linux, but adaptations are required for the detection with pyautogui)
+- Duolingo version 6.23.2 or later
+- A computer and a phone
+- An USB cable
+- Some patience for the setup.
+- Python 3.12.9
 
 # SETUP 
 0) Install Android Debug Bridge [directly from Android](https://developer.android.com/tools/adb?hl=en)  and also scrcpy (SCReenCoPY) in your folder "C:\Program Files\scrcpy-win64-v2.7\scrcpy.exe" ([directly from scrcpy.org](https://scrcpy.org/)) (Optional if already installed)
