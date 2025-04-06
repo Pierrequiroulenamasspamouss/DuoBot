@@ -1,7 +1,11 @@
 import os
 from dotenv import load_dotenv
 discordIntegration = True
-try :  DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+try :  
+    DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+    if DISCORD_WEBHOOK_URL is None:
+        discordIntegration = False
+        print("Webhook = None, disabling webhook integration")
 except:
     print("no discord webhook available. ")
     

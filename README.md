@@ -12,8 +12,8 @@ Automatic XP farmer with easy japanese lessons
 # SETUP 
 0) Install Android Debug Bridge [directly from Android](https://developer.android.com/tools/adb?hl=en)  and also scrcpy (SCReenCoPY) in your folder "C:\Program Files\scrcpy-win64-v2.7\scrcpy.exe" ([directly from scrcpy.org](https://scrcpy.org/)) (Optional if already installed)
 
-1) Install the required libraries:
-   - Pure-python ADB 0.3.0 ([official link](https://pypi.org/project/pure-python-adb/))
+1) Install the required libraries (or use the provided conda virtual environment):
+   - Pure-python ADB 0.3.0 ([official link]( ))
    - Pyautogui  ([official link](https://pyautogui.readthedocs.io/en/latest/))
    - dotenv(required to use private discord webhooks token) ( [official link](https://pypi.org/project/python-dotenv/) )
 
@@ -32,7 +32,7 @@ You can also import the program into your own python program by doing so:
 ```python
 import DuoBot
 (...)
-DuoBot.makeLessons(<NUMBER OF LESSONS YOU WANT TO DO>)
+DuoBot.makeLessons(<NUMBER_OF_LESSONS_YOU_WANT_TO_DO>)
 #a number equal to -1 means there is no maximal number of lessons to do
 ```
 # HOW TO REDO AN ASSET LIBRARY
@@ -43,7 +43,7 @@ cd C:\Program Files\scrcpy-win64-v2.7\ & .\scrcpy -m 1080 -f
 2) Go though your lesson and screenshot with your computer every asset that is present in "\Assets". Crop them like they are currently. The smaller the image is, the faster the program goes.
 
 # HOW TO KNOW THE POSITION OF SOMETHING ON YOUR SCREEN AT PIXEL PRECISION
-1) Launch Mousepos.py in a terminal, be ready to enter textin it, and launch scrcpy.exe in another shell terminal.
+1) Launch Mousepos.py in a terminal, be ready to enter text in it, and launch scrcpy.exe in another shell terminal.
 2) Go to scrcpy and move your mouse cursor to the position of the searched item. 
 3) Use ALT+TAB to switch onto the terminal with Mousepos.py running, and press enter. You should get the exact coordinates that you can plug back into config.py for whatever you'd need. 
 

@@ -1,12 +1,11 @@
+#General libraries
+import time,os,random,requests
 import pyautogui as pya
-import time
-import os
-import screen
 from ppadb.client import Client
-import random
+
+#Custom libraries
+import screen
 from config import *
-import time
-import requests
 
 '''
        / \

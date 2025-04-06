@@ -1,1 +1,19 @@
+# Useless files/folders
+__pycache__/
+*.pyc
+*.pyo
+
+# Sensible data
 .env
+
+# virtual folders/dependencies
+venv/
+env/
+.venv/
+
+# Logs
+*.log
+
+# VSCode / PyCharm
+.vscode/
+.idea/
