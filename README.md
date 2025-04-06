@@ -48,6 +48,7 @@ cd C:\Program Files\scrcpy-win64-v2.7\ & .\scrcpy -m 1080 -f
 3) Use ALT+TAB to switch onto the terminal with Mousepos.py running, and press enter. You should get the exact coordinates that you can plug back into config.py for whatever you'd need. 
 
 # Help
+-When launching the program for the first time, you could have ths issue: `pyautogui.PyAutoGUIException: useImageNotFoundException() ws called but pyscreeze isn't installed.`. This is solved by a clean reinstalling of pyscreeze with conda: `conda install -c conda-forge pyscreeze`
 - If the program is stuck at the matching exercise, try either lowering the confidence, or redoing the assets library.
 - If there is no device detected, please refer to a tutorial on how to use scrcpy or Android Debug Bridge (ADB)
 - If you want more infos, contact me via Discord: UID : 688759026564989072
