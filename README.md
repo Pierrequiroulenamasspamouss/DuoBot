@@ -18,7 +18,7 @@ Automatic XP farmer with easy japanese lessons
    - dotenv(required to use private discord webhooks token) ( [official link](https://pypi.org/project/python-dotenv/) )
 
 3) Go to config.py and change the settings if you have a different phone than a REDMI Note 12 pro 5G
-(e.g. : computer screen resolution, phone screen resolution,...). If you want the bot to send you a message via discord, add a webhook url in a ".env" file you have to create, as following: `DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1358208281411322194/YOUR_WEBHOOK_TOKEN_HERE"`
+(e.g. : computer screen resolution, phone screen resolution,...). If you want the bot to send you a message via discord, add a webhook url in a ".env" file you have to create, as following: `DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/YOUR_WEBHOOK_TOKEN_HERE"`
 
 4) Go on Duolingo and disable everything related to animations, motivational messages, sound effects, listening exercises, then put the lesson to Japanese, and go to the section "let's prectice Kanji" at the top and be sure there is only one blue "practice" button available. Be sure to be in dark mode for Duolingo, or else you'll have to redo the assets library
    
